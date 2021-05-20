@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: api
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    volumes:
+      - ./api:/go/src/app:delegated
+      - ./api/files:/go/files
+    environment:
+      - VIRTUAL_HOST=api.wordpress-deployer.localhost
+      - PORT=5000
+    expose:
+      - 5000
+    command: ["air"]
+
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+
+  admin-ui:
+
+volumes:
+  postgresdata:
