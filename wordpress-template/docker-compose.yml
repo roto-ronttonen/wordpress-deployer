@@ -2,28 +2,26 @@ version: "3.3"
     
 services:
   db:
-    image: mysql:5.7
+    image: mariadb
     volumes:
       - db_data:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: changeme
-      MYSQL_DATABASE: changeme
-      MYSQL_USER: changeme
-      MYSQL_PASSWORD: changeme
+      MYSQL_DATABASE: wordpress
     
   wordpress:
     depends_on:
       - db
+    links: 
+      - db:mysql
     image: wordpress:latest
     restart: always
     volumes:
       - wp-content:/var/www/html/wp-content
     environment:
-      WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: changeme
+      WORDPRESS_DB_USER: root
       WORDPRESS_DB_PASSWORD: changeme
-      WORDPRESS_DB_NAME: changeme
       VIRTUAL_HOST: changeme
       LETSENCRYPT_HOST: changeme
       VIRTUAL_PORT: 80
