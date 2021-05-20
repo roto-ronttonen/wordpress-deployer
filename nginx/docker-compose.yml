@@ -1,4 +1,4 @@
-version: "3.3"
+version: "2"
     
 services:
   nginx:
@@ -20,11 +20,10 @@ services:
       - nginx
     image: nginxproxy/acme-companion
     restart: always
+    volumes_from:
+      - nginx
     volumes:
-      - vhost:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-      - dhparam:/etc/nginx/dhparam:ro
-      - certs:/etc/nginx/certs
+      - certs:/etc/nginx/certs:rw
       - acme:/etc/acme.sh
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment: 
