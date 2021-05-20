@@ -20,8 +20,6 @@ services:
       - nginx
     image: nginxproxy/acme-companion
     restart: always
-    volumes_from:
-      - nginx
     volumes:
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
